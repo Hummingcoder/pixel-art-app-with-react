@@ -10,22 +10,40 @@ const Canvas = ({ setisEditCanvasSize }) => {
   const canvasRef = useRef(null);
 
   function handleOnClick(e) {
-    if (e.target.className === "pixel") {
+    if (e.target.classList.contains("pixel")) {
       e.target.style.background = paintColor;
 
       document.addEventListener("mousemove", handleMouseMove);
       document.addEventListener("mouseup", handleMouseUp);
+
+      document.addEventListener("touchmove", handleTouchMove, {
+        passive: false,
+      });
+      document.addEventListener("touchend", handleMouseUp);
     }
   }
   function handleMouseMove(e) {
-    if (e.target.className === "pixel") {
+    if (e.target.classList.contains("pixel")) {
       e.target.style.background = paintColor;
+    }
+  }
+
+  // used ai for handleTouchMove (sorry)
+  function handleTouchMove(e) {
+    e.preventDefault(); // Prevents scrolling while painting
+    const touch = e.touches[0];
+    const element = document.elementFromPoint(touch.clientX, touch.clientY);
+    if (element && element.classList.contains("pixel")) {
+      element.style.background = paintColor;
     }
   }
 
   function handleMouseUp() {
     document.removeEventListener("mousemove", handleMouseMove);
     document.removeEventListener("mouseup", handleMouseUp);
+
+    document.removeEventListener("touchmove", handleTouchMove);
+    document.removeEventListener("touchend", handleMouseUp);
   }
 
   function handleChecked(e) {
@@ -69,6 +87,7 @@ const Canvas = ({ setisEditCanvasSize }) => {
       <div
         ref={canvasRef}
         onMouseDown={handleOnClick}
+        onTouchStart={handleOnClick}
         className="canvas no-select"
         style={{
           gridTemplateColumns: `repeat(${canvasSize.width} ,1fr)`,
