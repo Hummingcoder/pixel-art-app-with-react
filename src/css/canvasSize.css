@@ -1,3 +1,4 @@
+/* Container */
 .container {
   width: 100%;
   height: 100%;
@@ -6,13 +7,13 @@
   justify-content: center;
 }
 
+/* Select Canvas */
 .select_canvas {
   width: 100%;
   padding: 20px;
   padding-top: 40px;
   max-width: 300px;
   height: 200px;
-
   color: white;
   background: linear-gradient(
     45deg,
@@ -28,18 +29,26 @@
   justify-content: space-between;
   box-shadow: 0 0 10px rgba(31, 29, 29, 0.671);
 }
+
+/* Sizes Container */
 .sizes-container {
   width: 100%;
   display: flex;
   justify-content: space-between;
 }
+
+/* Select Dropdown */
 .sizes-container select {
   border: 1px solid black;
   padding: 4px 10px;
   border-radius: 4px;
   cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
+/* Create Button */
 .createBtn {
   text-align: center;
   width: 80%;
@@ -48,4 +57,20 @@
   border-radius: 0.2em;
   border: none;
   cursor: pointer;
+}
+
+/* Cross-Browser Fixes */
+@supports not (
+  (backdrop-filter: blur(2px)) or (-webkit-backdrop-filter: blur(2px))
+) {
+  .select_canvas {
+    background: rgba(0, 0, 0, 0.7);
+  }
+}
+
+/* IE and Edge Fix */
+@supports (-ms-ime-align: auto) {
+  .container {
+    flex-direction: column;
+  }
 }

@@ -10,9 +10,7 @@ const ColorsContainer = () => {
   const [currentPalette, setcurrentPalette] = useState(Colors[0].name);
 
   function changePaintcolor(color) {
-    console.log(color);
     dispatch(handlePaintColor(color));
-    console.log(paintColor);
   }
   return (
     <article className="color-container">

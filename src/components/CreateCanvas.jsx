@@ -22,7 +22,7 @@ const CreateCanvas = ({ setisEditCanvasSize }) => {
     <div className="container">
       <section className="select_canvas">
         <div className="sizes-container">
-          <label htmlFor="sizes">Choose a fruit:</label>
+          <label htmlFor="sizes">Choose canvas size:</label>
           <select ref={sizeRef} id="sizes" name="sizes">
             {allCanvasSizes.map((size) => (
               <option key={size.width} value={JSON.stringify(size)}>
