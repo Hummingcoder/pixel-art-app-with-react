@@ -99,7 +99,7 @@ input:checked + .slider:before {
   align-items: center;
   justify-content: space-between;
 }
-.new-btn {
+.btn {
   background: linear-gradient(
     45deg,
     rgba(0, 60, 255, 0.156),
@@ -109,6 +109,7 @@ input:checked + .slider:before {
   color: white;
   border-radius: 6px;
   padding: 4px 10px;
+  margin-right: 12px;
 }
 
 @media (width > 370px) {

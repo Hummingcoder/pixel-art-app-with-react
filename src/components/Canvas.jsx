@@ -1,8 +1,14 @@
 import React, { useRef, useState } from "react";
 import "../css/canvas.css";
 import { useSelector } from "react-redux";
+import html2canvas from "html2canvas";
+
 const Canvas = ({ setisEditCanvasSize }) => {
   const { canvasSize, paintColor } = useSelector((state) => state.canvas);
+  const [showGrid, setshowGrid] = useState(false);
+
+  const canvasRef = useRef(null);
+
   function handleOnClick(e) {
     if (e.target.className === "pixel") {
       e.target.style.background = paintColor;
@@ -22,8 +28,6 @@ const Canvas = ({ setisEditCanvasSize }) => {
     document.removeEventListener("mouseup", handleMouseUp);
   }
 
-  const [showGrid, setshowGrid] = useState(false);
-
   function handleChecked(e) {
     if (e.target.checked) {
       setshowGrid(true);
@@ -32,12 +36,28 @@ const Canvas = ({ setisEditCanvasSize }) => {
     }
   }
 
+  async function handleExport() {
+    if (!canvasRef.current) return;
+
+    const res = await html2canvas(canvasRef.current);
+
+    const link = document.createElement("a");
+    link.href = res.toDataURL("image/png");
+    link.download = "canvas.png";
+    link.click();
+  }
+
   return (
     <>
       <section className="btn-sec">
-        <button className="new-btn" onClick={() => setisEditCanvasSize(true)}>
-          new
-        </button>
+        <span>
+          <button className="btn" onClick={() => setisEditCanvasSize(true)}>
+            new
+          </button>
+          <button className="btn" onClick={handleExport}>
+            export as png
+          </button>
+        </span>
         <div className="grid-container">
           grid :{" "}
           <label className="switch">
@@ -46,7 +66,8 @@ const Canvas = ({ setisEditCanvasSize }) => {
           </label>{" "}
         </div>
       </section>
-      <section
+      <div
+        ref={canvasRef}
         onMouseDown={handleOnClick}
         className="canvas no-select"
         style={{
@@ -60,7 +81,7 @@ const Canvas = ({ setisEditCanvasSize }) => {
           .map((item, index) => (
             <div className="pixel" key={index}></div>
           ))}
-      </section>
+      </div>
     </>
   );
 };
